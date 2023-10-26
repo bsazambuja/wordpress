@@ -19,6 +19,8 @@ services:
       - 3306
       - 33060
   wordpress:
+    links:
+      - db
     image: wordpress:latest
     network_mode: bridge
     volumes:
