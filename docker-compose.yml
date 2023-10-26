@@ -25,6 +25,7 @@ services:
     ports:
       - 8080:80
     restart: always
+    command: bash -c "apt update && apt install telnet -y"
     environment:
       - WORDPRESS_DB_HOST=db_wordpress
       - WORDPRESS_DB_USER=wordpress
