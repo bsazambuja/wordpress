@@ -1,9 +1,10 @@
 version: '2'
 
 services:
-   db:
+   db_wordpress:
      image: mariadb:10.6.4-focal
      network_mode: bridge
+     hostname: db_wordpress
      volumes:
        - db_data:/var/lib/mysql
      restart: always
@@ -15,14 +16,14 @@ services:
 
    wordpress:
      depends_on:
-       - db
+       - db_wordpress
      image: wordpress:latest
      network_mode: bridge
      ports:
        - "8080:80"
      restart: always
      environment:
-       WORDPRESS_DB_HOST: db:3306
+       WORDPRESS_DB_HOST: db_wordpress:3306
        WORDPRESS_DB_USER: wordpress
        WORDPRESS_DB_PASSWORD: wordpress
 volumes:
