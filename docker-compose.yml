@@ -23,9 +23,7 @@ services:
        - db_wordpress
      image: wordpress:latest
      network_mode: bridge
-     command: bash -c "
-      apt update && apt install telnet -y
-     "
+     command: bash -c "apt update && apt install telnet -y"
      
      ports:
        - "8080:80"
