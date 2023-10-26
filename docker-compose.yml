@@ -15,7 +15,8 @@ services:
       - MYSQL_USER=wordpress
       - MYSQL_PASSWORD=wordpress
     expose:
-      - 3306      
+      - 3306
+      - 33060
   wordpress:
     image: wordpress:latest
     network_mode: bridge
