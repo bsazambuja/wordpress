@@ -1,35 +1,31 @@
 version: "2"
 services:
-   db_wordpress:
-     image: mariadb:10.6.4-focal
-     command: '--default-authentication-plugin=mysql_native_password'
-     network_mode: bridge
-     hostname: db_wordpress
-     volumes:
-       - db_data:/var/lib/mysql
-     restart: always
-     environment:
-       MYSQL_ROOT_PASSWORD=somewordpress
-       MYSQL_DATABASE=wordpress
-       MYSQL_USER=wordpress
-       MYSQL_PASSWORD=wordpress
-     expose:
-       - 3306
-       - 33060  
-
-   wordpress:
-     links:
-       - db_wordpress
-     image: wordpress:latest
-     network_mode: bridge
-     command: bash -c "apt update && apt install telnet -y"
-     
-     ports:
-       - "8080:80"
-     restart: always
-     environment:
-       WORDPRESS_DB_HOST=db_wordpress:3306
-       WORDPRESS_DB_USER=wordpress
-       WORDPRESS_DB_PASSWORD=wordpress
+  db:
+    # We use a mariadb image which supports both amd64 & arm64 architecture
+    image: mariadb:10.6.4-focal
+    # If you really want to use MySQL, uncomment the following line
+    #image: mysql:8.0.27
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=somewordpress
+      - MYSQL_DATABASE=wordpress
+      - MYSQL_USER=wordpress
+      - MYSQL_PASSWORD=wordpress
+    expose:
+      - 3306
+      - 33060
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - 80:80
+    restart: always
+    environment:
+      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_USER=wordpress
+      - WORDPRESS_DB_PASSWORD=wordpress
+      - WORDPRESS_DB_NAME=wordpress
 volumes:
-    db_data:
+  db_data:
