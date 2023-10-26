@@ -15,7 +15,7 @@ services:
        MYSQL_PASSWORD: wordpress
 
    wordpress:
-     depends_on:
+     links:
        - db_wordpress
      image: wordpress:latest
      network_mode: bridge
