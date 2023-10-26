@@ -1,8 +1,9 @@
 version: "2"
 services:
-  db:
+  db_wordpress:
     # We use a mariadb image which supports both amd64 & arm64 architecture
     image: mariadb:10.6.4-focal
+    hostname: db_wordpress
     # If you really want to use MySQL, uncomment the following line
     #image: mysql:8.0.27
     command: '--default-authentication-plugin=mysql_native_password'
@@ -19,11 +20,13 @@ services:
       - 33060
   wordpress:
     image: wordpress:latest
+    links:
+       - db_wordpress
     ports:
       - 8080:80
     restart: always
     environment:
-      - WORDPRESS_DB_HOST=db
+      - WORDPRESS_DB_HOST=db_wordpress
       - WORDPRESS_DB_USER=wordpress
       - WORDPRESS_DB_PASSWORD=wordpress
       - WORDPRESS_DB_NAME=wordpress
